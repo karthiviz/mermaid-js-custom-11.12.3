@@ -7,13 +7,15 @@
     <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgo=" />
     <style>
       :root {
-        --bg-dark: #0f172a;
-        --sidebar-dark: #1e293b;
-        --accent-purple: #8b5cf6;
-        --accent-blue: #3b82f6;
-        --text-bright: #f8fafc;
-        --text-dim: #94a3b8;
-        --border-dark: #334155;
+        --bg: #f8fafc;
+        --surface: #ffffff;
+        --accent: #4f46e5;
+        --accent-light: #ede9fe;
+        --accent-hover: #4338ca;
+        --accent-secondary: #0ea5e9;
+        --text: #0f172a;
+        --text-dim: #64748b;
+        --border: #e2e8f0;
         --header-height: 64px;
         --sidebar-width: 260px;
       }
@@ -26,8 +28,8 @@
         margin: 0;
         padding: 0;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        background-color: var(--bg-dark);
-        color: var(--text-bright);
+        background-color: var(--bg);
+        color: var(--text);
         display: flex;
         height: 100vh;
         overflow: hidden;
@@ -36,13 +38,14 @@
       /* Sidebar Styles */
       aside {
         width: var(--sidebar-width);
-        background: var(--sidebar-dark);
-        border-right: 1px solid var(--border-dark);
+        background: var(--surface);
+        border-right: 1px solid var(--border);
         display: flex;
         flex-direction: column;
         flex-shrink: 0;
         z-index: 20;
         transition: transform 0.3s ease;
+        box-shadow: 2px 0 8px rgba(15,23,42,0.06);
       }
 
       .sidebar-header {
@@ -50,12 +53,13 @@
         display: flex;
         align-items: center;
         gap: 12px;
+        border-bottom: 1px solid var(--border);
       }
 
       .logo-circle {
         width: 32px;
         height: 32px;
-        background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+        background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
         border-radius: 8px;
         display: flex;
         align-items: center;
@@ -69,6 +73,7 @@
         font-size: 1.1rem;
         font-weight: 600;
         letter-spacing: -0.02em;
+        color: var(--text);
       }
 
       .nav-section {
@@ -103,13 +108,13 @@
       }
 
       .example-item:hover {
-        background: rgba(255, 255, 255, 0.05);
-        color: var(--text-bright);
+        background: var(--accent-light);
+        color: var(--accent);
       }
 
       .example-item.active {
-        background: rgba(139, 92, 246, 0.1);
-        color: var(--accent-purple);
+        background: var(--accent-light);
+        color: var(--accent);
         font-weight: 500;
       }
 
@@ -124,14 +129,15 @@
 
       header {
         height: var(--header-height);
-        background: var(--bg-dark);
-        border-bottom: 1px solid var(--border-dark);
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 0 24px;
         z-index: 100;
         position: relative;
+        box-shadow: 0 1px 4px rgba(15,23,42,0.06);
       }
 
       .header-left {
@@ -144,7 +150,7 @@
         display: none;
         background: none;
         border: none;
-        color: var(--text-bright);
+        color: var(--text);
         font-size: 1.5rem;
         cursor: pointer;
       }
@@ -158,18 +164,23 @@
 
       .ai-prompt-input {
         width: 100%;
-        background: var(--sidebar-dark);
-        border: 1px solid var(--border-dark);
+        background: var(--bg);
+        border: 1px solid var(--border);
         border-radius: 99px;
         padding: 10px 20px 10px 44px;
-        color: var(--text-bright);
+        color: var(--text);
         font-size: 0.9rem;
         outline: none;
-        transition: border-color 0.2s;
+        transition: border-color 0.2s, box-shadow 0.2s;
       }
 
       .ai-prompt-input:focus {
-        border-color: var(--accent-purple);
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(79,70,229,0.1);
+      }
+
+      .ai-prompt-input::placeholder {
+        color: var(--text-dim);
       }
 
       .sparkle-icon {
@@ -177,7 +188,7 @@
         left: 16px;
         top: 50%;
         transform: translateY(-50%);
-        color: var(--accent-purple);
+        color: var(--accent);
       }
 
       .header-right {
@@ -186,51 +197,12 @@
         align-items: center;
       }
 
-      .dropdown {
-        position: relative;
-        display: inline-block;
-      }
-
-      .dropdown-content {
-        display: none;
-        position: absolute;
-        right: 0;
-        background-color: var(--sidebar-dark);
-        min-width: 140px;
-        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
-        z-index: 110;
-        border-radius: 8px;
-        border: 1px solid var(--border-dark);
-        margin-top: 4px;
-      }
-
-      .dropdown-content button {
-        color: var(--text-bright);
-        padding: 10px 16px;
-        text-decoration: none;
-        display: block;
-        width: 100%;
-        border: none;
-        background: none;
-        text-align: left;
-        cursor: pointer;
-        font-size: 0.85rem;
-      }
-
-      .dropdown-content button:hover {
-        background-color: var(--border-dark);
-      }
-
-      .dropdown-content.show {
-        display: block;
-      }
-
       .btn {
         padding: 8px 16px;
         border-radius: 6px;
-        border: 1px solid var(--border-dark);
-        background: var(--sidebar-dark);
-        color: var(--text-bright);
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text);
         cursor: pointer;
         font-size: 0.85rem;
         font-weight: 500;
@@ -241,16 +213,19 @@
       }
 
       .btn:hover {
-        background: #2d3748;
+        background: var(--bg);
+        border-color: #cbd5e1;
       }
 
       .btn-primary {
-        background: var(--accent-purple);
-        border-color: var(--accent-purple);
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #ffffff;
       }
 
       .btn-primary:hover {
-        background: #7c3aed;
+        background: var(--accent-hover);
+        border-color: var(--accent-hover);
       }
 
       /* Editor & Preview Area */
@@ -264,7 +239,7 @@
         width: 400px;
         min-width: 200px;
         max-width: 800px;
-        background: var(--bg-dark);
+        background: var(--surface);
         display: flex;
         flex-direction: column;
         position: relative;
@@ -273,18 +248,19 @@
       .resizer {
         width: 4px;
         cursor: col-resize;
-        background: var(--border-dark);
+        background: var(--border);
         transition: background 0.2s;
         z-index: 50;
       }
 
       .resizer:hover, .resizer.dragging {
-        background: var(--accent-purple);
+        background: var(--accent);
       }
 
       .pane-header {
         padding: 12px 20px;
-        background: var(--sidebar-dark);
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
         font-size: 0.7rem;
         font-weight: 700;
         text-transform: uppercase;
@@ -298,9 +274,9 @@
         flex: 1;
         width: 100%;
         padding: 20px;
-        background: var(--bg-dark);
-        color: #e2e8f0;
-        font-family: 'Fira Code', monospace;
+        background: var(--surface);
+        color: #1e293b;
+        font-family: 'Fira Code', 'Cascadia Code', monospace;
         font-size: 13px;
         line-height: 1.6;
         border: none;
@@ -311,7 +287,7 @@
 
       .preview-pane {
         flex: 1;
-        background: #0b0f1a;
+        background: var(--bg);
         display: flex;
         flex-direction: column;
         position: relative;
@@ -321,7 +297,8 @@
         flex: 1;
         overflow: hidden;
         position: relative;
-        background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        background-color: #f1f5f9;
+        background-image: radial-gradient(rgba(100, 116, 139, 0.18) 1px, transparent 1px);
         background-size: 30px 30px;
       }
 
@@ -348,21 +325,22 @@
       .zoom-btn {
         width: 36px;
         height: 36px;
-        background: var(--sidebar-dark);
-        border: 1px solid var(--border-dark);
+        background: var(--surface);
+        border: 1px solid var(--border);
         border-radius: 8px;
-        color: var(--text-bright);
+        color: var(--text);
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         font-size: 1.2rem;
         transition: all 0.2s;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        box-shadow: 0 2px 8px rgba(15,23,42,0.1);
       }
 
       .zoom-btn:hover {
-        background: var(--border-dark);
+        background: var(--bg);
+        border-color: #cbd5e1;
       }
 
       .status-dot {
@@ -380,7 +358,7 @@
 
       @media (max-width: 768px) {
         .content-area { flex-direction: column; }
-        .editor-pane { width: 100%; height: 40%; border-right: none; border-bottom: 1px solid var(--border-dark); }
+        .editor-pane { width: 100%; height: 40%; border-right: none; border-bottom: 1px solid var(--border); }
         .menu-toggle { display: block; }
         aside { position: absolute; left: 0; top: 0; bottom: 0; transform: translateX(-100%); }
         aside.open { transform: translateX(0); }
@@ -403,7 +381,7 @@
         <!-- Links populated here -->
       </div>
 
-      <div style="margin-top: auto; padding: 20px; border-top: 1px solid var(--border-dark);">
+      <div style="margin-top: auto; padding: 20px; border-top: 1px solid var(--border);">
         <a href="https://mermaid.js.org" target="_blank" class="example-item">Documentation</a>
         <a href="https://mermaid.live" target="_blank" class="example-item">Live Editor</a>
       </div>
@@ -422,13 +400,7 @@
         </div>
 
         <div class="header-right">
-          <div class="dropdown">
-            <button class="btn">Download ↓</button>
-            <div class="dropdown-content">
-              <button id="download-png">Export as PNG</button>
-              <button id="download-jpg">Export as JPEG</button>
-            </div>
-          </div>
+          <button class="btn" id="download-svg">Download SVG</button>
           <button class="btn" id="clear-code">Clear</button>
           <button class="btn btn-primary" id="copy-code">Copy</button>
         </div>
@@ -447,13 +419,13 @@
   A[Prompt AI] -->|Natural Language| B(Mermaid Code)
   B --> C{Visual Output}
   C -->|Fast| D[SVG Diagram]
-  C -->|Modern| E[Dark Mode]</textarea>
+  C -->|Clean| E[Light Theme]</textarea>
         </div>
 
         <div class="resizer" id="resizer"></div>
         
         <div class="preview-pane">
-          <div class="pane-header" style="background: #111827;">
+          <div class="pane-header">
             <span>Preview</span>
             <span style="font-size: 0.6rem; opacity: 0.6;">Scroll to zoom • Drag to pan</span>
           </div>
@@ -488,21 +460,77 @@
           return;
         }
         try {
-          // Initialize mermaid for high-res dark mode
           mermaid.initialize({
             startOnLoad: false,
-            theme: 'dark',
+            theme: 'base',
             securityLevel: 'loose',
             flowchart: { useMaxWidth: false, htmlLabels: true },
             gantt: { useMaxWidth: false },
             sequence: { useMaxWidth: false },
             themeVariables: {
-              primaryColor: '#8b5cf6',
-              primaryTextColor: '#fff',
-              primaryBorderColor: '#8b5cf6',
+              background: '#ffffff',
+              primaryColor: '#ddd6fe',
+              primaryTextColor: '#2d1b69',
+              primaryBorderColor: '#a78bfa',
               lineColor: '#94a3b8',
-              secondaryColor: '#3b82f6',
-              tertiaryColor: '#1e293b'
+              secondaryColor: '#bae6fd',
+              tertiaryColor: '#d1fae5',
+              mainBkg: '#ddd6fe',
+              nodeBorder: '#a78bfa',
+              clusterBkg: '#fef3c7',
+              clusterBorder: '#fcd34d',
+              titleColor: '#1e1b4b',
+              edgeLabelBackground: '#f8fafc',
+              attributeBackgroundColorEven: '#f0fdf4',
+              attributeBackgroundColorOdd: '#f0f9ff',
+              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+              fontSize: '14px',
+              actorBkg: '#ddd6fe',
+              actorBorder: '#a78bfa',
+              actorTextColor: '#2d1b69',
+              actorLineColor: '#94a3b8',
+              signalColor: '#4f46e5',
+              signalTextColor: '#1e1b4b',
+              labelBoxBkgColor: '#ede9fe',
+              labelBoxBorderColor: '#a78bfa',
+              labelTextColor: '#2d1b69',
+              loopTextColor: '#2d1b69',
+              noteBorderColor: '#fcd34d',
+              noteBkgColor: '#fef9c3',
+              noteTextColor: '#713f12',
+              activationBorderColor: '#a78bfa',
+              activationBkgColor: '#ede9fe',
+              sequenceNumberColor: '#ffffff',
+              sectionBkgColor: '#ddd6fe',
+              altSectionBkgColor: '#ede9fe',
+              sectionBkgColor2: '#bae6fd',
+              taskBorderColor: '#a78bfa',
+              taskBkgColor: '#ddd6fe',
+              taskTextColor: '#2d1b69',
+              taskTextOutsideColor: '#2d1b69',
+              activeTaskBorderColor: '#4f46e5',
+              activeTaskBkgColor: '#c4b5fd',
+              gridColor: '#e2e8f0',
+              doneTaskBkgColor: '#d1fae5',
+              doneTaskBorderColor: '#6ee7b7',
+              critBorderColor: '#fca5a5',
+              critBkgColor: '#fee2e2',
+              todayLineColor: '#f87171',
+              pie1: '#ddd6fe',
+              pie2: '#bae6fd',
+              pie3: '#d1fae5',
+              pie4: '#fef3c7',
+              pie5: '#fce7f3',
+              pie6: '#ccfbf1',
+              pie7: '#e0e7ff',
+              pie8: '#fef9c3',
+              pie9: '#ffe4e6',
+              pie10: '#f0fdf4',
+              pie11: '#fdf4ff',
+              pie12: '#fff7ed',
+              pieLegendTextColor: '#1e293b',
+              pieSectionTextColor: '#1e293b',
+              pieTitleTextColor: '#1e293b',
             }
           });
 
@@ -610,81 +638,28 @@
       });
 
       // Download Logic
-      async function downloadImage(type) {
-        const svgElement = preview.querySelector('svg');
-        if (!svgElement) return;
+      document.getElementById('download-svg').addEventListener('click', async () => {
+        const code = editor.value.trim();
+        if (!code) return;
 
-        // Clone SVG to modify for export
-        const clonedSvg = svgElement.cloneNode(true);
-        
-        // Use getBBox to get the actual content size
-        const bbox = svgElement.getBBox();
-        const padding = 40;
-        const width = bbox.width + padding;
-        const height = bbox.height + padding;
-
-        clonedSvg.setAttribute('width', width);
-        clonedSvg.setAttribute('height', height);
-        clonedSvg.setAttribute('viewBox', `${bbox.x - padding/2} ${bbox.y - padding/2} ${width} ${height}`);
-        
-        // Inject style to make text black and ensure lines are visible for export
-        const styleElement = document.createElement('style');
-        styleElement.textContent = `
-          text, .node text, .label text, .edgeLabel text { fill: #000000 !important; font-weight: bold !important; }
-          .path, .edgePath path, .line { stroke: #333333 !important; }
-          .node rect, .node circle, .node polygon, .node path { stroke: #333333 !important; }
-        `;
-        clonedSvg.prepend(styleElement);
-
-        const svgData = new XMLSerializer().serializeToString(clonedSvg);
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const img = new Image();
-        
-        const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
-        const url = URL.createObjectURL(svgBlob);
-
-        img.onload = () => {
-          const scale = 2; // High-res
-          canvas.width = width * scale;
-          canvas.height = height * scale;
-          
-          if (type === 'image/jpeg') {
-            ctx.fillStyle = '#ffffff'; // Opaque white background for JPEG
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-          } else {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-          }
-          
-          ctx.scale(scale, scale);
-          ctx.drawImage(img, 0, 0);
-          
-          const dataUrl = canvas.toDataURL(type, 0.95);
-          const link = document.createElement('a');
-          link.download = `mermaid-diagram.${type === 'image/jpeg' ? 'jpg' : 'png'}`;
-          link.href = dataUrl;
-          link.click();
-          URL.revokeObjectURL(url);
-        };
-        img.src = url;
-      }
-
-      document.getElementById('download-png').onclick = () => downloadImage('image/png');
-      document.getElementById('download-jpg').onclick = () => downloadImage('image/jpeg');
-
-      // Dropdown Toggle Logic
-      const downloadBtn = document.querySelector('.dropdown .btn');
-      const dropdownContent = document.querySelector('.dropdown-content');
-
-      downloadBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        dropdownContent.classList.toggle('show');
-      });
-
-      document.addEventListener('click', (e) => {
-        if (!dropdownContent.contains(e.target) && e.target !== downloadBtn) {
-          dropdownContent.classList.remove('show');
+        let svgString;
+        try {
+          const { svg } = await mermaid.render('mermaid-export', code);
+          svgString = svg;
+        } catch (e) {
+          console.error('Export failed: could not render diagram:', e);
+          return;
         }
+
+        const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'mermaid-diagram.svg';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
       });
 
       // Panel Resizer Logic
