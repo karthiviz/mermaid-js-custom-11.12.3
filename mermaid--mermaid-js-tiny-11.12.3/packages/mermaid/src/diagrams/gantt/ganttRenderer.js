@@ -106,6 +106,8 @@ export const draw = function (text, id, version, diagObj) {
 
   if (conf.useWidth !== undefined) {
     w = conf.useWidth;
+  } else if (conf.width !== undefined) {
+    w = conf.width;
   }
 
   const taskArray = diagObj.db.getTasks();

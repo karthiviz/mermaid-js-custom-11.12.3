@@ -391,7 +391,7 @@
       <header>
         <div class="header-left">
           <button class="menu-toggle" id="toggle-sidebar">☰</button>
-          <div style="font-weight: 600; font-size: 0.95rem; color: var(--text-bright);">Playground</div>
+          <div style="font-weight: 600; font-size: 0.95rem; color: var(--text);">Playground</div>
         </div>
 
         <div class="ai-prompt-container">
@@ -453,98 +453,115 @@
       const statusText = document.getElementById('status-text');
       const aiInput = document.getElementById('ai-prompt');
       let panZoomInstance = null;
+      let renderId = 0;
+
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'base',
+        securityLevel: 'loose',
+        flowchart: { useMaxWidth: false, htmlLabels: true },
+        gantt: { useMaxWidth: false },
+        sequence: { useMaxWidth: false },
+        themeVariables: {
+          background: '#ffffff',
+          primaryColor: '#ddd6fe',
+          primaryTextColor: '#2d1b69',
+          primaryBorderColor: '#a78bfa',
+          lineColor: '#94a3b8',
+          secondaryColor: '#bae6fd',
+          tertiaryColor: '#d1fae5',
+          mainBkg: '#ddd6fe',
+          nodeBorder: '#a78bfa',
+          clusterBkg: '#fef3c7',
+          clusterBorder: '#fcd34d',
+          titleColor: '#1e1b4b',
+          edgeLabelBackground: '#f8fafc',
+          attributeBackgroundColorEven: '#f0fdf4',
+          attributeBackgroundColorOdd: '#f0f9ff',
+          fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+          fontSize: '14px',
+          actorBkg: '#ddd6fe',
+          actorBorder: '#a78bfa',
+          actorTextColor: '#2d1b69',
+          actorLineColor: '#94a3b8',
+          signalColor: '#4f46e5',
+          signalTextColor: '#1e1b4b',
+          labelBoxBkgColor: '#ede9fe',
+          labelBoxBorderColor: '#a78bfa',
+          labelTextColor: '#2d1b69',
+          loopTextColor: '#2d1b69',
+          noteBorderColor: '#fcd34d',
+          noteBkgColor: '#fef9c3',
+          noteTextColor: '#713f12',
+          activationBorderColor: '#a78bfa',
+          activationBkgColor: '#ede9fe',
+          sequenceNumberColor: '#ffffff',
+          sectionBkgColor: '#ddd6fe',
+          altSectionBkgColor: '#ede9fe',
+          sectionBkgColor2: '#bae6fd',
+          taskBorderColor: '#a78bfa',
+          taskBkgColor: '#ddd6fe',
+          taskTextColor: '#2d1b69',
+          taskTextOutsideColor: '#2d1b69',
+          activeTaskBorderColor: '#4f46e5',
+          activeTaskBkgColor: '#c4b5fd',
+          gridColor: '#e2e8f0',
+          doneTaskBkgColor: '#d1fae5',
+          doneTaskBorderColor: '#6ee7b7',
+          critBorderColor: '#fca5a5',
+          critBkgColor: '#fee2e2',
+          todayLineColor: '#f87171',
+          pie1: '#ddd6fe',
+          pie2: '#bae6fd',
+          pie3: '#d1fae5',
+          pie4: '#fef3c7',
+          pie5: '#fce7f3',
+          pie6: '#ccfbf1',
+          pie7: '#e0e7ff',
+          pie8: '#fef9c3',
+          pie9: '#ffe4e6',
+          pie10: '#f0fdf4',
+          pie11: '#fdf4ff',
+          pie12: '#fff7ed',
+          pieLegendTextColor: '#1e293b',
+          pieSectionTextColor: '#1e293b',
+          pieTitleTextColor: '#1e293b',
+        }
+      });
 
       async function render(str) {
         if (!str.trim()) {
           preview.innerHTML = '';
-          return;
-        }
-        try {
-          mermaid.initialize({
-            startOnLoad: false,
-            theme: 'base',
-            securityLevel: 'loose',
-            flowchart: { useMaxWidth: false, htmlLabels: true },
-            gantt: { useMaxWidth: false },
-            sequence: { useMaxWidth: false },
-            themeVariables: {
-              background: '#ffffff',
-              primaryColor: '#ddd6fe',
-              primaryTextColor: '#2d1b69',
-              primaryBorderColor: '#a78bfa',
-              lineColor: '#94a3b8',
-              secondaryColor: '#bae6fd',
-              tertiaryColor: '#d1fae5',
-              mainBkg: '#ddd6fe',
-              nodeBorder: '#a78bfa',
-              clusterBkg: '#fef3c7',
-              clusterBorder: '#fcd34d',
-              titleColor: '#1e1b4b',
-              edgeLabelBackground: '#f8fafc',
-              attributeBackgroundColorEven: '#f0fdf4',
-              attributeBackgroundColorOdd: '#f0f9ff',
-              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
-              fontSize: '14px',
-              actorBkg: '#ddd6fe',
-              actorBorder: '#a78bfa',
-              actorTextColor: '#2d1b69',
-              actorLineColor: '#94a3b8',
-              signalColor: '#4f46e5',
-              signalTextColor: '#1e1b4b',
-              labelBoxBkgColor: '#ede9fe',
-              labelBoxBorderColor: '#a78bfa',
-              labelTextColor: '#2d1b69',
-              loopTextColor: '#2d1b69',
-              noteBorderColor: '#fcd34d',
-              noteBkgColor: '#fef9c3',
-              noteTextColor: '#713f12',
-              activationBorderColor: '#a78bfa',
-              activationBkgColor: '#ede9fe',
-              sequenceNumberColor: '#ffffff',
-              sectionBkgColor: '#ddd6fe',
-              altSectionBkgColor: '#ede9fe',
-              sectionBkgColor2: '#bae6fd',
-              taskBorderColor: '#a78bfa',
-              taskBkgColor: '#ddd6fe',
-              taskTextColor: '#2d1b69',
-              taskTextOutsideColor: '#2d1b69',
-              activeTaskBorderColor: '#4f46e5',
-              activeTaskBkgColor: '#c4b5fd',
-              gridColor: '#e2e8f0',
-              doneTaskBkgColor: '#d1fae5',
-              doneTaskBorderColor: '#6ee7b7',
-              critBorderColor: '#fca5a5',
-              critBkgColor: '#fee2e2',
-              todayLineColor: '#f87171',
-              pie1: '#ddd6fe',
-              pie2: '#bae6fd',
-              pie3: '#d1fae5',
-              pie4: '#fef3c7',
-              pie5: '#fce7f3',
-              pie6: '#ccfbf1',
-              pie7: '#e0e7ff',
-              pie8: '#fef9c3',
-              pie9: '#ffe4e6',
-              pie10: '#f0fdf4',
-              pie11: '#fdf4ff',
-              pie12: '#fff7ed',
-              pieLegendTextColor: '#1e293b',
-              pieSectionTextColor: '#1e293b',
-              pieTitleTextColor: '#1e293b',
-            }
-          });
-
-          const { svg } = await mermaid.render('dynamic', str);
-          preview.innerHTML = svg;
-          
-          const svgElement = preview.querySelector('svg');
-          svgElement.style.width = '100%';
-          svgElement.style.height = '100%';
-          
           if (panZoomInstance) {
             panZoomInstance.destroy();
+            panZoomInstance = null;
           }
+          return;
+        }
 
+        const thisId = 'mermaid-' + (++renderId);
+        let svg;
+        try {
+          ({ svg } = await mermaid.render(thisId, str));
+        } catch (e) {
+          console.error(e);
+          statusDot.style.background = '#ef4444';
+          statusText.textContent = 'Error';
+          return;
+        }
+
+        preview.innerHTML = svg;
+
+        const svgElement = preview.querySelector('svg');
+        svgElement.style.width = '100%';
+        svgElement.style.height = '100%';
+
+        if (panZoomInstance) {
+          panZoomInstance.destroy();
+          panZoomInstance = null;
+        }
+
+        try {
           panZoomInstance = svgPanZoom(svgElement, {
             zoomEnabled: true,
             controlIconsEnabled: false,
@@ -553,22 +570,25 @@
             minZoom: 0.1,
             maxZoom: 20,
           });
-
-          statusDot.style.background = '#10b981';
-          statusText.textContent = 'Live';
         } catch (e) {
-          console.error(e);
-          statusDot.style.background = '#ef4444';
-          statusText.textContent = 'Error';
+          console.error('svg-pan-zoom init failed:', e);
         }
+
+        statusDot.style.background = '#10b981';
+        statusText.textContent = 'Live';
+      }
+
+      function debounce(fn, delay) {
+        let timer;
+        return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), delay); };
       }
 
       // Initial Render
       render(editor.value);
 
-      editor.addEventListener('input', (e) => {
+      editor.addEventListener('input', debounce((e) => {
         render(e.target.value);
-      });
+      }, 300));
 
       // Zoom Controls
       document.getElementById('zoom-in').onclick = () => panZoomInstance?.zoomIn();

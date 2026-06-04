@@ -62,6 +62,7 @@ const config: RequiredDeep<MermaidConfig> = {
     ...defaultConfigJson.gantt,
     tickInterval: undefined,
     useWidth: undefined, // can probably be removed since `configKeys` already includes this
+    width: undefined, // alias for useWidth accepted in %%{init}%% directives
   },
   c4: {
     ...defaultConfigJson.c4,
